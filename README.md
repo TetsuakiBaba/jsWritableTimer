@@ -1,3 +1,6 @@
+
+* try at github page: https://tetsuakibaba.github.io/jsWritableTimer/
+
 ## Author
 * Tetsuaki Baba: https://tetsuakibaba.jp
 * Affiliation: Tokyo Metropolitan University

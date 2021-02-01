@@ -1,10 +1,8 @@
 var canvas;
 let color_scheme = []; // 0: input, 1: target, 2: text, 3: background
-var scribble = new Scribble(); // global mode
 var one_dollar = new DollarRecognizer();
 var rectangle_timer = [];
-scribble.bowing = 1.0;
-scribble.roughness = 1.5;
+
 var id;
 var is_counting_down;
 var points = [];
