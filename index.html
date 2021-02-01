@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inconsolata&family=Roboto+Mono:ital,wght@1,100&family=Share+Tech+Mono&family=Source+Code+Pro:wght@600&family=Syne+Mono&family=Xanh+Mono&display=swap"
+        rel="stylesheet">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+    <script language="javascript" type="text/javascript" src="p5.scribble.js"></script>
+    <script language="javascript" type="text/javascript" src="dollar.js"></script>
+    <script src="sketch.js"></script>
+
+
+    <title>Chairman's Timer</title>
+</head>
+
+<body>
+    <div id="canvas">
+    </div>
+    <div class="container-sm">
+        <div class="row">
+            <div class="col-md">
+                <div class="form-floating">
+                    <select id="color_scheme" class="form-select">
+                        <option value='#F2F2F2,#262626,#0D0D0D' selected>paper</option>
+                        <option value="#262326,#D8D9C7,#F0F2F2">dark</option>
+                        <option value="#F272B8,#7ED0D9,#8973D9">kawaii</option>
+                        <option value="#193441,#CBDBD7,#FCFFF5">navy</option>
+                        <option value="#BFD1D9,#F2F2F2,#95AFBF">quiet</option>
+                    </select>
+                    <label for="floatingInput">Color Scheme</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <select id="font" class="form-select">
+                        <option value='Share Tech Mono' selected>Share Tech Mono</option>
+                        <option value='Roboto Mono'>Robot Mono Thin(italic)</option>
+                        <option value='Inconsolata'>Inconsolata Regular</option>
+                        <option value='Xanh Mono'>Xanh Mono</option>
+                        <option value='Source Code Pro'>Source Code Pro</option>
+                    </select>
+                    <label for="floatingInput">Font</label>
+                </div>
+            </div>
+
+        </div>
+        <hr>
+
+
+        <p>
+            <a class="btn btn-outline-secondary" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                aria-expanded="false" aria-controls="collapseExample">
+                How to use
+            </a>
+
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <ul>
+                    <li>0 - 9: write a number on the canvas.</li>
+                    <li>c: clear the timer to 00:00</li>
+                    <li>click: start the timer</li>
+                    <li>double click: reset the timer</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>Writable Timer by Tetsuaki Baba &copy; 2021,
+        </footer>
+    </div>
+
+
+</body>
+
+</html>
