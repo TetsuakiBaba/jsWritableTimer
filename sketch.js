@@ -2,7 +2,7 @@ var canvas;
 let color_scheme = []; // 0: input, 1: target, 2: text, 3: background
 var one_dollar = new DollarRecognizer();
 var rectangle_timer = [];
-
+var str_debug;
 var id;
 var is_counting_down;
 var points = [];
@@ -17,133 +17,50 @@ var timer = {
     }
 };
 
-// 左上を0,0座標とする四角クラス
-class p5Rectangle {
-    constructor(_x, _y, _w, _h) {
-        this.x = _x;
-        this.y = _y;
-        this.w = _w;
-        this.h = _h;
-    }
-    set(_x, _y, _w, _h) {
-        this.x = _x;
-        this.y = _y;
-        this.w = _w;
-        this.h = _h;
-    }
-    draw() {
-        rect(this.x, this.y, this.w, this.h);
-    }
-    // 渡した座標が四角内にあるかどうかの判定
-    inside(_x, _y) {
-        if (_x >= this.x && _x <= this.x + this.w &&
-            _y >= this.y && _y <= this.x + this.h) {
-            return true;
-        }
-    }
-    getCenter() {
-        var data = {
-            x: this.x + this.w / 2,
-            y: this.y + this.h / 2
-        };
-        return data;
-    }
+var str_message = '';
 
-};
-
-function countdown() {
-    timer.second--;
-    if (timer.second < 0) {
-        timer.minute--;
-        timer.second = 59;
-        if (timer.minute < 0) {
-            timer.hour--;
-            timer.minute = 59;
-            if (timer.hour < 0) {
-                // end of cound down
-                timer.hour = timer.minute = timer.second = 0;
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-class Sprite {
-    constructor() {
-        this.x = 0;
-        this.y = 0;
-        this.r = 10;
-        this.life = 0;
-        this.v_x = 0.0;
-        this.v_y = 0.0;
-    }
-    set(_x, _y, _r, _color) {
-        this.x = _x;
-        this.y = _y;
-        this.v_x = random(-3.0, 3.0);
-        this.v_y = random(-3.0, 3.0);
-        this.life = random(5);
-        this.color = _color;
-        this.r = _r;
-
-    }
-    draw() {
-        if (this.life > 0) {
-            this.x += this.v_x;
-            this.y += this.v_y;
-
-            strokeWeight(1);
-            stroke(this.color);
-            vertex(this.x, this.y);
-            this.life--;
-        }
-    }
-}
-
-class ClickAnimation {
-    constructor() {
-        this.sprites = [];
-        for (let i = 0; i < 50; i++) {
-            this.sprites[i] = new Sprite();
-        }
-
-    }
-    setReady(_x, _y, _r, _color) {
-        for (let i = 0; i < this.sprites.length; i++) {
-            this.sprites[i].set(_x, _y, _r, _color);
-        }
-    }
-    draw() {
-        beginShape();
-        for (let i = 0; i < this.sprites.length; i++) {
-            this.sprites[i].draw();
-        }
-        endShape(CLOSE);
-    }
-}
-
-var click_animation = new ClickAnimation();
+var click_animation = new StrokeAnimation();
 
 function setup() {
+    str_debug = '';
     is_counting_down = false;
     let canvas_width = parseInt(document.getElementById('canvas').clientWidth);
     let canvas_height = canvas_width * (9 / 16);
     canvas = createCanvas(canvas_width, canvas_height);
-    canvas.mousePressed(cmousePressed);
-    canvas.mouseReleased(cmouseReleased);
-    //canvas.mouseDragged(cmouseDragged);
+
+    if (navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0) {
+        // スマートフォン向けの記述
+        canvas.touchStarted(cmousePressed);
+        canvas.touchMoved(cmouseDragged);
+        canvas.touchEnded(cmouseReleased);
+        no_scroll();
+    } else if (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+        // タブレット向けの記述
+        canvas.touchStarted(cmousePressed);
+        canvas.touchMoved(cmouseDragged);
+        canvas.touchEnded(cmouseReleased);
+        no_scroll();
+    } else {
+        // PC向けの記述
+        canvas.mousePressed(cmousePressed);
+        canvas.mouseMoved(cmouseDragged);
+        canvas.mouseReleased(cmouseReleased);
+        str_debug = "pc";
+    }
+
+    str_debug = navigator.userAgent;
+
     canvas.doubleClicked(cdoubleClicked);
     canvas.parent('#canvas');
 
     select('#color_scheme').changed(changedColorScheme);
     select('#font').changed(changedFont);
+    select('#message').input(inputMessage);
 
     textAlign(CENTER, CENTER);
-    textFont('Share Tech Mono');
-    //textFont('Roboto Mono');
+    textFont(document.getElementById('font').value);
     textSize(height / 2);
-    frameRate(30);
+    frameRate(60);
 
     var str = document.getElementById('color_scheme').value;
     str = str.replace(/ /g, ''); // 空白の除去
@@ -156,7 +73,27 @@ function setup() {
             i * canvas_width / 4, 0,
             canvas_width / 4, canvas_height);
     }
-    console.log(rectangle_timer);
+
+}
+
+// スクロール禁止
+function no_scroll() {
+    // PCでのスクロール禁止
+    document.addEventListener("mousewheel", scroll_control, { passive: false });
+    // スマホでのタッチ操作でのスクロール禁止
+    document.addEventListener("touchmove", scroll_control, { passive: false });
+}
+// スクロール禁止解除
+function return_scroll() {
+    // PCでのスクロール禁止解除
+    document.removeEventListener("mousewheel", scroll_control, { passive: false });
+    // スマホでのタッチ操作でのスクロール禁止解除
+    document.removeEventListener('touchmove', scroll_control, { passive: false });
+}
+
+// スクロール関連メソッド
+function scroll_control(event) {
+    event.preventDefault();
 }
 
 function windowResized() {
@@ -168,6 +105,7 @@ function windowResized() {
     }
 }
 
+var angle_alpha = 0.0;
 
 function draw() {
     background(color_scheme[0]);
@@ -177,6 +115,9 @@ function draw() {
     //     rect.draw();
     //     circle(rect.getCenter().x, rect.getCenter().y, 10, 10);
     // });
+
+
+
     // タイマー部分の描画
     noStroke();
     fill(color_scheme[1]);
@@ -185,32 +126,54 @@ function draw() {
     let str = nf(timer.minute, 2, 0) + ':' + nf(timer.second, 2, 0);
     text(str, width / 2, height / 2);
 
-    // 入力ストロークの表示
-    strokeWeight(height * width / 30000);
-    strokeCap(PROJECT);
-    stroke(color_scheme[2]);
-    noFill();
-    beginShape();
-    points.forEach(point => {
-        vertex(point.X, point.Y);
-    });
-    endShape();
+    // Messageの描画
+    textSize(height / 10.0);
+    textAlign(CENTER, TOP);
+    text(str_message, width / 2, height * (3 / 4));
 
+    // 入力ストロークの表示
+    // strokeWeight(height * width / 50000);
+    // strokeCap(PROJECT);
+    // stroke(color_scheme[2]);
+    // noFill();
+    // beginShape();
+    // points.forEach(point => {
+    //     vertex(point.X, point.Y);
+    // });
+    // endShape();
+
+
+    noFill();
     click_animation.draw();
+
+
+    // console.log(mouseIsPressed);
+    // textSize(12);
+    // textAlign(LEFT, TOP);
+    // text(mouseIsPressed, 10, 10);
     // if (mouseIsPressed) {
     //     points[points.length] = new Point(mouseX, mouseY);
     // }
-}
+    //text(str_debug, 10, 20);
 
-function keyPressed() {
-    if (key == ' ') {
-        var id = setInterval(function () {
-            if (!countdown()) {
-                clearInterval(id);
-            }
-        }, 1000);
+    // pause の表示
+    if (!is_counting_down) {
+        noStroke();
+        angle_alpha += 0.5;
+        let rect_alpha = parseInt(50 + abs(100 * sin(radians(angle_alpha))));
+        rect_alpha = rect_alpha.toString(16);
+        //console.log(rect_alpha);
+        fill(color_scheme[1] + rect_alpha);
+        rectMode(CENTER);
+        rect(width / 2, height / 2, width, height / 10);
+
+        fill(color_scheme[2]);
+        textSize(height / 10);
+        textAlign(CENTER, CENTER);
+        text('pause', width / 2, height / 2);
     }
 }
+
 
 function changedColorScheme() {
     var str = document.getElementById('color_scheme').value;
@@ -220,14 +183,20 @@ function changedColorScheme() {
 
 function cmousePressed() {
     console.log("mousePressed", mouseX, mouseY);
-    click_animation.setReady(mouseX, mouseY, 2, color_scheme[1]);
+
+    click_animation.setReady(mouseX, mouseY, 5, color_scheme[1]);
     points = [];
-    points[0] = new Point(mouseX, mouseY);
+    // 以下のコメントあうとは，iOSだとこの最初の座標が以前の値の飛び値なので無視することにしました．
+    //points[0] = new Point(mouseX, mouseY);
+    //str_debug = points[0].X + ", " + points[0].Y;
 }
 
-function mouseDragged() {
-    console.log("mouseDraggud");
-    points[points.length] = new Point(mouseX, mouseY);
+function cmouseDragged() {
+    console.log("mouseMoved");
+    if (mouseIsPressed) {
+
+        points[points.length] = new Point(mouseX, mouseY);
+    }
 }
 
 function centroid(_points) {
@@ -355,6 +324,7 @@ function cmouseReleased() {
         points = [];
     }
 
+    points = [];
 
 }
 
@@ -369,7 +339,7 @@ function cdoubleClicked() {
     }
     else {
     }
-    click_animation.setReady(mouseX, mouseY, 2, color_scheme[1]);
+
     is_counting_down = false;
     points = [];
 }
@@ -377,4 +347,8 @@ function cdoubleClicked() {
 function changedFont() {
     console.log(this.value());
     textFont(this.value());
+}
+
+function inputMessage() {
+    str_message = this.value();
 }
