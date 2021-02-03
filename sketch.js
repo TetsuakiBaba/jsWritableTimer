@@ -35,7 +35,7 @@ function preload() {
         }
     }
 
-    console.log(sounds);
+    //console.log(sounds);
 
 }
 function mousePressed() {
@@ -217,7 +217,7 @@ function changedColorScheme() {
 }
 
 function cmousePressed() {
-    console.log("mousePressed", mouseX, mouseY);
+    //    console.log("mousePressed", mouseX, mouseY);
 
     click_animation.setReady(mouseX, mouseY, 5, color_scheme[1]);
     points = [];
@@ -227,7 +227,7 @@ function cmousePressed() {
 }
 
 function cmouseDragged() {
-    console.log("mouseMoved");
+    //console.log("mouseMoved");
     if (mouseIsPressed) {
 
         points[points.length] = new Point(mouseX, mouseY);
@@ -248,7 +248,7 @@ function centroid(_points) {
     return data_return;
 }
 function cmouseReleased() {
-    console.log("mouseReleased", points.length);
+    //console.log("mouseReleased", points.length);
     if (points.length >= 10) {
         let str;
         str = "new Unistroke(\"name\", new Array(";
@@ -262,7 +262,7 @@ function cmouseReleased() {
             }
         }
         str += '));';
-        console.log(str)
+        //console.log(str)
 
         // 数字入力された位置を特定して，該当する数値を変更する
         // 入力ストロークの中心位置を計算する
@@ -284,12 +284,12 @@ function cmouseReleased() {
             if (a.value > b.value) return 1;
             return 0;
         });
-        console.log(dists);
+        //console.log(dists);
 
         var result = one_dollar.Recognize(points, true);
-        console.log(result);
+        //console.log(result);
 
-        console.log("length of points:", points.length);
+        //console.log("length of points:", points.length);
         let number_recognized;
         if (result.Name == 'No match.') {
             number_recognized = 0;
@@ -364,7 +364,7 @@ function cmouseReleased() {
 }
 
 function cdoubleClicked() {
-    console.log("double clicked");
+    //    console.log("double clicked");
     timer.hour = timer.set.hour;
     timer.minute = timer.set.minute;
     timer.second = timer.set.second;
@@ -381,7 +381,7 @@ function cdoubleClicked() {
 }
 
 function changedFont() {
-    console.log(this.value());
+    //console.log(this.value());
     textFont(this.value());
     document.getElementById('body').style.fontFamily = this.value();
 }
@@ -392,10 +392,10 @@ function inputMessage() {
 }
 
 function changedSound() {
-    console.log(this.value());
+    //console.log(this.value());
     if (this.value() != 'No sound') {
         sounds[this.value()].play();
-        console.log("play");
+        //console.log("play");
     }
 }
 
