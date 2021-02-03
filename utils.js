@@ -35,17 +35,45 @@ class p5Rectangle {
 
 
 function countdown() {
-    timer.second--;
-    if (timer.second < 0) {
-        timer.minute--;
-        timer.second = 59;
-        if (timer.minute < 0) {
-            timer.hour--;
-            timer.minute = 59;
-            if (timer.hour < 0) {
-                // end of cound down
-                timer.hour = timer.minute = timer.second = 0;
-                return false;
+    if (!timer.is_over) {
+        timer.second--;
+        if (timer.second < 0) {
+            timer.minute--;
+            timer.second = 59;
+            if (timer.minute < 0) {
+                timer.hour--;
+                timer.minute = 59;
+                if (timer.hour < 0) {
+                    // end of cound down
+                    timer.hour = timer.minute = 0;
+                    timer.second = 1;
+                    //return false;
+                    timer.is_over = true;
+
+                    var sound_file = document.getElementById('sound').value;
+                    if (sound_file != 'No sound') {
+                        sounds[sound_file].play();
+                    }
+                    return true;
+                }
+            }
+        }
+    }
+    else {
+        timer.second++;
+        if (timer.second > 59) {
+            timer.minute++;
+            timer.second = 0;
+            if (timer.minute > 59) {
+                timer.hour++;
+                timer.minute = 0;
+                if (timer.hour > 99) {
+                    // end of cound down
+                    //timer.hour = timer.minute = timer.second = 0;
+                    //return false;
+                    timer.is_over = false;
+                    return false; // end of timer
+                }
             }
         }
     }
