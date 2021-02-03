@@ -24,6 +24,7 @@ var is_pc;
 var click_animation = new StrokeAnimation();
 
 var sounds = {};
+
 function preload() {
 
     var sels = document.getElementById('sound');
@@ -39,9 +40,11 @@ function preload() {
     //console.log(sounds);
 
 }
+
 function mousePressed() {
     userStartAudio();
 }
+
 function setup() {
     str_debug = '';
     is_counting_down = false;
@@ -116,9 +119,9 @@ var angle_alpha = 0.0;
 
 
 function keyPressed() {
-    if (key == 's') {
-        save('output.png');
-    }
+    // if (key == 's') {
+    //     save('output.png');
+    // }
 }
 
 function draw() {
@@ -186,8 +189,7 @@ function draw() {
         textSize(height / 10);
         textAlign(CENTER, CENTER);
         text('pause', width / 2, height / 2);
-    }
-    else if (timer.is_over) { // 制限時間オーバー
+    } else if (timer.is_over) { // 制限時間オーバー
         noStroke();
         angle_alpha += 3.0;
         let rect_alpha = parseInt(50 + abs(100 * sin(radians(angle_alpha))));
@@ -244,6 +246,7 @@ function centroid(_points) {
     }
     return data_return;
 }
+
 function cmouseReleased() {
     //console.log("mouseReleased", points.length);
     if (points.length >= 10) {
@@ -253,8 +256,7 @@ function cmouseReleased() {
         for (let i = 0; i < points.length; i++) {
             if (i == points.length - 1) {
                 str += "new Point(" + String(parseInt(points[i].X)) + "," + String(parseInt(points[i].Y)) + ")";
-            }
-            else {
+            } else {
                 str += "new Point(" + String(parseInt(points[i].X)) + "," + String(parseInt(points[i].Y)) + "),";
             }
         }
@@ -276,7 +278,7 @@ function cmouseReleased() {
         }
 
         // distsを値をキーにしてソート
-        dists.sort(function (a, b) {
+        dists.sort(function(a, b) {
             if (a.value < b.value) return -1;
             if (a.value > b.value) return 1;
             return 0;
@@ -290,13 +292,11 @@ function cmouseReleased() {
         let number_recognized;
         if (result.Name == 'No match.') {
             number_recognized = 0;
-        }
-        else if (result.Name == 'c') {
+        } else if (result.Name == 'c') {
             timer.hour = timer.minute = timer.second = 0;
             points = [];
             return;
-        }
-        else {
+        } else {
             number_recognized = parseInt(result.Name);
         }
 
@@ -336,15 +336,13 @@ function cmouseReleased() {
         points = [];
 
 
-    }
-    else {
+    } else {
         // single click -> start timer or pause timer
 
         if (is_counting_down) {
             clearInterval(id);
-        }
-        else {
-            id = setInterval(function () {
+        } else {
+            id = setInterval(function() {
                 if (!countdown()) {
                     clearInterval(id);
                 }
@@ -369,9 +367,7 @@ function cdoubleClicked() {
 
     if (is_counting_down) {
         clearInterval(id);
-    }
-    else {
-    }
+    } else {}
 
     is_counting_down = false;
     points = [];
@@ -385,8 +381,7 @@ function changedFont() {
     if (document.getElementById('font').options[id_selected].innerHTML.indexOf('italic') > 0) {
         textStyle(ITALIC);
         document.getElementById('body').style.fontStyle = 'italic';
-    }
-    else {
+    } else {
         textStyle(NORMAL)
         document.getElementById('body').style.fontStyle = 'normal';
     }
@@ -412,8 +407,7 @@ function pushedManualButton() {
 
     if (this.value() == 'false') {
         this.value('true');
-    }
-    else {
+    } else {
         this.value('false');
     }
 
@@ -421,8 +415,7 @@ function pushedManualButton() {
         if (!is_pc) {
             enable_scroll();
         }
-    }
-    else {
+    } else {
         if (!is_pc) {
             disable_scroll();
         }
