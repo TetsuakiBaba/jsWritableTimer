@@ -384,9 +384,11 @@ function changedFont() {
     //console.log(document.getElementById('font').options[id_selected].innerHTML);
     if (document.getElementById('font').options[id_selected].innerHTML.indexOf('italic') > 0) {
         textStyle(ITALIC);
+        document.getElementById('body').style.fontStyle = 'italic';
     }
     else {
         textStyle(NORMAL)
+        document.getElementById('body').style.fontStyle = 'normal';
     }
     textFont(this.value());
     document.getElementById('body').style.fontFamily = this.value();
