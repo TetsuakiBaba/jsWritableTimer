@@ -1,10 +1,31 @@
 
-* try at github page: https://tetsuakibaba.github.io/jsWritableTimer/
+# jsWritableTmer
+
+
+## Desctiption
+This is an application that allows you to write one stroke of a number to input a timer.
+
+## Demo
+![](./gifs/teaser.gif)
+* Try at github page: https://tetsuakibaba.github.io/jsWritableTimer/
+
+## Gallery
+The color scheme and fonts are customizable. The image below are examples.
+![](./pngs/01.png)
+![](./pngs/03.png)
+![](./pngs/04.png)
+![](./pngs/02.png)
+![](./pngs/05.png)
+![](./pngs/06.png)
+
+## Usage
+Please read the manual on the demo page.
 
 ## Author
 * Tetsuaki Baba: https://tetsuakibaba.jp
-* Affiliation: Tokyo Metropolitan University
+
 
 ## Reference
   * p5js libraries: https://p5js.org/libraries/
   * Bootstrap: https://getbootstrap.com
+  * $1 Unistroke Recognizer: http://depts.washington.edu/acelab/proj/dollar/index.html

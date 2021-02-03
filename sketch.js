@@ -19,6 +19,7 @@ var timer = {
 };
 
 var str_message = '';
+var is_pc;
 
 var click_animation = new StrokeAnimation();
 
@@ -54,18 +55,21 @@ function setup() {
         canvas.touchStarted(cmousePressed);
         canvas.touchMoved(cmouseDragged);
         canvas.touchEnded(cmouseReleased);
-        no_scroll();
+        disable_scroll();
+        is_pc = false;
     } else if (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0) {
         // タブレット向けの記述
         canvas.touchStarted(cmousePressed);
         canvas.touchMoved(cmouseDragged);
         canvas.touchEnded(cmouseReleased);
-        no_scroll();
+        disable_scroll();
+        is_pc = false;
     } else {
         // PC向けの記述
         canvas.mousePressed(cmousePressed);
         canvas.mouseMoved(cmouseDragged);
         canvas.mouseReleased(cmouseReleased);
+        is_pc = true;
     }
 
     str_debug = navigator.userAgent;
@@ -76,6 +80,7 @@ function setup() {
     select('#font').changed(changedFont);
     select('#message').input(inputMessage);
     select('#sound').changed(changedSound);
+    select('#button_manual').mouseClicked(pushedManualButton);
 
     textAlign(CENTER, CENTER);
     textFont(document.getElementById('font').value);
@@ -96,25 +101,7 @@ function setup() {
 
 }
 
-// スクロール禁止
-function no_scroll() {
-    // PCでのスクロール禁止
-    document.addEventListener("mousewheel", scroll_control, { passive: false });
-    // スマホでのタッチ操作でのスクロール禁止
-    document.addEventListener("touchmove", scroll_control, { passive: false });
-}
-// スクロール禁止解除
-function return_scroll() {
-    // PCでのスクロール禁止解除
-    document.removeEventListener("mousewheel", scroll_control, { passive: false });
-    // スマホでのタッチ操作でのスクロール禁止解除
-    document.removeEventListener('touchmove', scroll_control, { passive: false });
-}
 
-// スクロール関連メソッド
-function scroll_control(event) {
-    event.preventDefault();
-}
 
 function windowResized() {
     let w = document.getElementById('canvas').clientWidth;
@@ -127,6 +114,13 @@ function windowResized() {
 
 var angle_alpha = 0.0;
 
+
+function keyPressed() {
+    if (key == 's') {
+        save('output.png');
+    }
+}
+
 function draw() {
     background(color_scheme[0]);
 
@@ -136,10 +130,10 @@ function draw() {
     //     circle(rect.getCenter().x, rect.getCenter().y, 10, 10);
     // });
 
-
-
     // タイマー部分の描画
     noStroke();
+    //stroke(0, 0, 0);
+    //strokeWeight(10);
     fill(color_scheme[1]);
     textSize(height / 1.7);
     textAlign(CENTER, CENTER);
@@ -147,6 +141,7 @@ function draw() {
     text(str, width / 2, height / 2);
 
     // Messageの描画
+
     textSize(height / 10.0);
     textAlign(CENTER, TOP);
     text(str_message, width / 2, height * (3 / 4));
@@ -218,7 +213,9 @@ function changedColorScheme() {
 
 function cmousePressed() {
     //    console.log("mousePressed", mouseX, mouseY);
-
+    if (!is_pc) {
+        disable_scroll();
+    }
     click_animation.setReady(mouseX, mouseY, 5, color_scheme[1]);
     points = [];
     // 以下のコメントあうとは，iOSだとこの最初の座標が以前の値の飛び値なので無視することにしました．
@@ -399,3 +396,24 @@ function changedSound() {
     }
 }
 
+function pushedManualButton() {
+
+    if (this.value() == 'false') {
+        this.value('true');
+    }
+    else {
+        this.value('false');
+    }
+
+    if (this.value() == 'true') {
+        if (!is_pc) {
+            enable_scroll();
+        }
+    }
+    else {
+        if (!is_pc) {
+            disable_scroll();
+        }
+    }
+
+}

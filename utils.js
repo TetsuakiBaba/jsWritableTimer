@@ -79,3 +79,25 @@ function countdown() {
     }
     return true;
 }
+
+
+
+// スクロール禁止
+function disable_scroll() {
+    // PCでのスクロール禁止
+    document.addEventListener("mousewheel", scroll_control, { passive: false });
+    // スマホでのタッチ操作でのスクロール禁止
+    document.addEventListener("touchmove", scroll_control, { passive: false });
+}
+// スクロール禁止解除
+function enable_scroll() {
+    // PCでのスクロール禁止解除
+    document.removeEventListener("mousewheel", scroll_control, { passive: false });
+    // スマホでのタッチ操作でのスクロール禁止解除
+    document.removeEventListener('touchmove', scroll_control, { passive: false });
+}
+
+// スクロール関連メソッド
+function scroll_control(event) {
+    event.preventDefault();
+}
