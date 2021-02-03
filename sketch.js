@@ -378,9 +378,19 @@ function cdoubleClicked() {
 }
 
 function changedFont() {
+    //here
     //console.log(this.value());
+    let id_selected = document.getElementById('font').selectedIndex;
+    //console.log(document.getElementById('font').options[id_selected].innerHTML);
+    if (document.getElementById('font').options[id_selected].innerHTML.indexOf('italic') > 0) {
+        textStyle(ITALIC);
+    }
+    else {
+        textStyle(NORMAL)
+    }
     textFont(this.value());
     document.getElementById('body').style.fontFamily = this.value();
+
 }
 
 
