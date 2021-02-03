@@ -24,10 +24,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"
         integrity="sha512-b/htz6gIyFi3dwSoZ0Uv3cuv3Ony7EeKkacgrcVg8CMzu90n777qveu0PBcbZUA7TzyENGtU+qZRuFAkfqgyoQ=="
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.min.js"
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.min.js"
         integrity="sha512-wM+t5MzLiNHl2fwT5rWSXr2JMeymTtixiw2lWyVk1JK/jDM4RBSFoH4J8LjucwlDdY6Mu84Kj0gPXp7rLGaDyA=="
-        crossorigin="anonymous"></script>
-
+        crossorigin="anonymous"></script> -->
+    <script src="p5.sound.min.js"></script>
     <script language="javascript" type="text/javascript" src="dollar.js"></script>
     <script language="javascript" type="text/javascript" src="StrokeAnimation.js"></script>
     <script language="javascript" type="text/javascript" src="utils.js"></script>
@@ -74,10 +74,9 @@
                 <div class="form-floating">
                     <select id="sound" class="form-select">
                         <option value='No sound' selected>No sound</option>
-                        <option value='sounds/bell00.mp3'>00</option>
-                        <option value='sounds/bell01.mp3'>01</option>
-                        <option value='sounds/bell02.mp3'>02</option>02</option>
-
+                        <option value='./sounds/bell00.mp3'>00</option>
+                        <option value='./sounds/bell01.mp3'>01</option>
+                        <option value='./sounds/bell02.mp3'>02</option>
                     </select>
                     <label for="floatingInput">Bell</label>
                 </div>

@@ -23,6 +23,7 @@ var str_message = '';
 var click_animation = new StrokeAnimation();
 
 var sounds = {};
+var sound_test;
 function preload() {
 
     var sels = document.getElementById('sound');
@@ -30,11 +31,15 @@ function preload() {
     for (let i = 0; i < sels.length; i++) {
         if (sels[i].value != 'No sound') {
             console.log(sels[i].value);
-            sounds[sels[i].value] = new loadSound(sels[i].value);
+            sounds[sels[i].value] = loadSound(sels[i].value);
         }
     }
+    sound_test = loadSound('sounds/bell01.mp3');
     console.log(sounds);
 
+}
+function mousePressed() {
+    userStartAudio();
 }
 function setup() {
     str_debug = '';
@@ -373,6 +378,9 @@ function cdoubleClicked() {
 
     is_counting_down = false;
     points = [];
+
+    sound_test.setVolume(0.5);
+    sound_test.play();
 }
 
 function changedFont() {
