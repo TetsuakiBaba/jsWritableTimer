@@ -31,7 +31,7 @@ function preload() {
     soundFormats('mp3');
     for (let i = 0; i < sels.length; i++) {
         if (sels[i].value != 'No sound') {
-            console.log(sels[i].value);
+            //            console.log(sels[i].value);
             sounds[sels[i].value] = loadSound(sels[i].value);
             sounds[sels[i].value].setVolume(0.3);
         }
@@ -139,7 +139,7 @@ function setup() {
         let tr = createElement('tr');
         tr.parent('table_color');
 
-        console.log(options[i].innerHTML);
+        //        console.log(options[i].innerHTML);
         let th = createElement('th', options[i].innerHTML);
         th.parent(tr);
 
@@ -157,7 +157,7 @@ function setup() {
     // manual(font)にフォント一覧の要素を作成する
     options = document.getElementById('font').options;
     for (let i = 0; i < options.length; i++) {
-        console.log(options[i].value);
+        //        console.log(options[i].value);
         let tr = createElement('tr');
         tr.parent('table_font');
         let th = createElement('th', options[i].innerHTML);
@@ -292,9 +292,9 @@ function cmousePressed() {
     if (!is_pc) {
         disable_scroll();
     }
-    click_animation.setReady(mouseX, mouseY, 5, color_scheme[2]);
+    click_animation.setReady(mouseX, mouseY, width * height / 100000, color_scheme[2]);
     points = [];
-    // 以下のコメントあうとは，iOSだとこの最初の座標が以前の値の飛び値なので無視することにしました．
+    // 以下のコメントアウトは，iOSだとこの最初の座標が以前の値の飛び値なので無視することにしました．
     //points[0] = new Point(mouseX, mouseY);
     //str_debug = points[0].X + ", " + points[0].Y;
 }
@@ -302,7 +302,6 @@ function cmousePressed() {
 function cmouseDragged() {
     //console.log("mouseMoved");
     if (mouseIsPressed) {
-
         points[points.length] = new Point(mouseX, mouseY);
     }
 }

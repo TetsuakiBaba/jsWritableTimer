@@ -10,7 +10,7 @@ class Sprite {
         this.green = 0;
         this.blue = 0;
         this.life_max = 50;
-        this.birth_rate = 20; // 0 - 100
+        this.birth_rate = 50; // 0 - 100
     }
     set(_x, _y, _r, _red, _green, _blue) {
         this.x = _x;
@@ -22,7 +22,7 @@ class Sprite {
         this.red = _red;
         this.green = _green;
         this.blue = _blue;
-        this.r = width * height / 100000;
+        this.r = _r;
     }
     draw() {
         if (this.life > 0) {
