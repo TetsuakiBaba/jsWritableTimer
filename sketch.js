@@ -53,29 +53,59 @@ function setup() {
     canvas = createCanvas(canvas_width, canvas_height);
     canvas.parent('#canvas');
 
-    if (navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0) {
-        // スマートフォン向けの記述
+    if (navigator.userAgent.indexOf('iPhone') > 0 ||
+        navigator.userAgent.indexOf('iPod') > 0 ||
+        (navigator.userAgent.indexOf('Android') > 0 &&
+            navigator.userAgent.indexOf('Mobile') > 0)) {
+        //スマホ用の処理
         canvas.touchStarted(cmousePressed);
         canvas.touchMoved(cmouseDragged);
         canvas.touchEnded(cmouseReleased);
         disable_scroll();
         is_pc = false;
-    } else if (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0) {
-        // タブレット向けの記述
+    } else if (navigator.userAgent.indexOf('iPad') > 0 ||
+        navigator.userAgent.indexOf('Android') > 0) {
+        //タブレット用の処理
         canvas.touchStarted(cmousePressed);
         canvas.touchMoved(cmouseDragged);
         canvas.touchEnded(cmouseReleased);
         disable_scroll();
         is_pc = false;
-    } else {
-        // PC向けの記述
+    } else if (navigator.userAgent.indexOf('Safari') > 0 &&
+        navigator.userAgent.indexOf('Chrome') == -1 &&
+        typeof document.ontouchstart !== 'undefined') {
+        //iOS13以降のiPad用の処理
+        canvas.touchStarted(cmousePressed);
+        canvas.touchMoved(cmouseDragged);
+        canvas.touchEnded(cmouseReleased);
+        disable_scroll();
+        is_pc = false;
+    }
+    else {
         canvas.mousePressed(cmousePressed);
         canvas.mouseMoved(cmouseDragged);
         canvas.mouseReleased(cmouseReleased);
         is_pc = true;
     }
 
-    str_debug = navigator.userAgent;
+    // if (navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0) {
+    //     // スマートフォン向けの記述
+
+    // } else if (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+    //     // タブレット向けの記述
+    //     canvas.touchStarted(cmousePressed);
+    //     canvas.touchMoved(cmouseDragged);
+    //     canvas.touchEnded(cmouseReleased);
+    //     disable_scroll();
+    //     is_pc = false;
+    // } else {
+    //     // PC向けの記述
+    //     canvas.mousePressed(cmousePressed);
+    //     canvas.mouseMoved(cmouseDragged);
+    //     canvas.mouseReleased(cmouseReleased);
+    //     is_pc = true;
+    // }
+    // str_debug = navigator.userAgent;
     canvas.doubleClicked(cdoubleClicked);
 
 
@@ -100,8 +130,48 @@ function setup() {
             canvas_width / 4, canvas_height);
     }
 
-    document.getElementById('body').style.fontFamily = document.getElementById('font').value;
+    document.getElementById('app').style.fontFamily = document.getElementById('font').value;
 
+    // manual(color) に色一覧の要素を作成する
+    let options = document.getElementById('color_scheme').options;
+
+    for (let i = 0; i < options.length; i++) {
+        let tr = createElement('tr');
+        tr.parent('table_color');
+
+        console.log(options[i].innerHTML);
+        let th = createElement('th', options[i].innerHTML);
+        th.parent(tr);
+
+        let colors = options[i].value;
+        colors = colors.replace(/ /g, ''); // 空白の除去
+        colors = colors.split(',');
+        colors.forEach(color => {
+            let td = createElement('td', color)
+            td.parent(tr);
+            td.style('background-color', color);
+            td.style('color', getBright(color, mod) > 0.5 ? 'black' : 'white')
+        })
+
+    }
+    // manual(font)にフォント一覧の要素を作成する
+    options = document.getElementById('font').options;
+    for (let i = 0; i < options.length; i++) {
+        console.log(options[i].value);
+        let tr = createElement('tr');
+        tr.parent('table_font');
+        let th = createElement('th', options[i].innerHTML);
+        th.parent(tr);
+        let td = createElement('td', '0123456789,The quick brown fox jumps over the lazy dog');
+        td.style('font-family', options[i].value);
+        if (options[i].innerHTML.indexOf('italic') > 0) {
+            td.style('font-style', 'italic');
+        }
+        else {
+            td.style('font-style', 'normal');
+        }
+        td.parent(tr);
+    }
 }
 
 
@@ -172,7 +242,7 @@ function draw() {
     // if (mouseIsPressed) {
     //     points[points.length] = new Point(mouseX, mouseY);
     // }
-    //text(str_debug, 10, 20);
+
 
     // pause の表示
     if (!is_counting_down) {
@@ -204,6 +274,10 @@ function draw() {
         textAlign(CENTER, CENTER);
         text('time up', width / 2, height / 2);
     }
+
+    // textSize(12);
+    // textAlign(LEFT, TOP);
+    // text(str_debug, 10, 20);
 }
 
 
@@ -218,7 +292,7 @@ function cmousePressed() {
     if (!is_pc) {
         disable_scroll();
     }
-    click_animation.setReady(mouseX, mouseY, 5, color_scheme[1]);
+    click_animation.setReady(mouseX, mouseY, 5, color_scheme[2]);
     points = [];
     // 以下のコメントあうとは，iOSだとこの最初の座標が以前の値の飛び値なので無視することにしました．
     //points[0] = new Point(mouseX, mouseY);
@@ -278,7 +352,7 @@ function cmouseReleased() {
         }
 
         // distsを値をキーにしてソート
-        dists.sort(function(a, b) {
+        dists.sort(function (a, b) {
             if (a.value < b.value) return -1;
             if (a.value > b.value) return 1;
             return 0;
@@ -342,7 +416,7 @@ function cmouseReleased() {
         if (is_counting_down) {
             clearInterval(id);
         } else {
-            id = setInterval(function() {
+            id = setInterval(function () {
                 if (!countdown()) {
                     clearInterval(id);
                 }
@@ -367,7 +441,7 @@ function cdoubleClicked() {
 
     if (is_counting_down) {
         clearInterval(id);
-    } else {}
+    } else { }
 
     is_counting_down = false;
     points = [];
@@ -380,13 +454,13 @@ function changedFont() {
     //console.log(document.getElementById('font').options[id_selected].innerHTML);
     if (document.getElementById('font').options[id_selected].innerHTML.indexOf('italic') > 0) {
         textStyle(ITALIC);
-        document.getElementById('body').style.fontStyle = 'italic';
+        document.getElementById('app').style.fontStyle = 'italic';
     } else {
         textStyle(NORMAL)
-        document.getElementById('body').style.fontStyle = 'normal';
+        document.getElementById('app').style.fontStyle = 'normal';
     }
     textFont(this.value());
-    document.getElementById('body').style.fontFamily = this.value();
+    document.getElementById('app').style.fontFamily = this.value();
 
 }
 

@@ -17,7 +17,7 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Inconsolata&family=Roboto+Mono:ital,wght@1,100&family=Share+Tech+Mono&family=Xanh+Mono&display=swap"
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Inconsolata&family=Roboto+Mono:ital,wght@1,100&family=Share+Tech+Mono&family=Xanh+Mono&family=Cutive+Mono&display=swap"
         rel="stylesheet">
 
 
@@ -37,204 +37,256 @@
     <title>jsWritableTimer by Tetsuaki Baba</title>
 </head>
 
-<body id="body">
+<body>
     <div id="canvas">
     </div>
-    <div class="container-sm">
-        <div class="row">
-            <div class="col-md">
-                <div class="form-floating">
-                    <select id="color_scheme" class="form-select">
-                        <!-- background, timer color, sub color -->
-                        <option value='#F2F2F2,#262626,#0D0D0D' selected>paper</option>
-                        <option value="#262326,#D8D9C7,#F0F2F2">dark</option>
-                        <option value="#F272B8,#7ED0D9,#8973D9">kawaii</option>
-                        <option value="#193441,#CBDBD7,#FCFFF5">navy</option>
-                        <option value="#BFD1D9,#F2F2F2,#95AFBF">quiet</option>
-                        <option value="#FFFFFF,#F04D29,#06ABF4">office</option>
-                        <option value="#FFFFFF,#000000,#000000">black on white</option>
-                        <option value="#000000,#FFFFFF,#FFFFFF">white on black</option>
-                    </select>
-                    <label for="floatingInput">Color Scheme</label>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <select id="font" class="form-select">
-                        <option value='Share Tech Mono' selected> Share Tech Mono [Regular]</option>
-                        <option value='IBM Plex Mono'>IBM Plex Mono [Regular]</option>
-                        <option value='Roboto Mono'>Robot Mono [Thin,italic] </option>
-                        <option value='Inconsolata'>Inconsolata[Regular]</option>
-                        <option value='Xanh Mono'>Xanh Mono[Regular]</option>
-                    </select>
-                    <label for="floatingInput">Font</label>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <select id="sound" class="form-select">
-                        <option value='No sound' selected>No sound</option>
-                        <option value='./sounds/bell00.mp3'>00</option>
-                        <option value='./sounds/bell01.mp3'>01</option>
-                        <option value='./sounds/bell02.mp3'>02</option>
-                    </select>
-                    <label for="floatingInput">Bell</label>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <textarea id="message" class="form-control"></textarea>
-                    <label for="floatingInput">Message</label>
-                </div>
-            </div>
 
+    <div class="container-sm">
+        <div id="app">
+
+            <div class="row">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <select id="color_scheme" class="form-select">
+                            <!-- background, timer color, sub color -->
+                            <option value='#F2F2F2,#262626,#0D0D0D' selected>paper</option>
+                            <option value="#262326,#D8D9C7,#F0F2F2">dark</option>
+                            <option value="#F272B8,#7ED0D9,#8973D9">kawaii</option>
+                            <option value="#193441,#CBDBD7,#FCFFF5">navy</option>
+                            <option value="#BFD1D9,#F2F2F2,#95AFBF">quiet</option>
+                            <option value="#FFFFFF,#F04D29,#06ABF4">office</option>
+                            <option value="#FFFFFF,#000000,#000000">black on white</option>
+                            <option value="#000000,#FFFFFF,#FFFFFF">white on black</option>
+                        </select>
+                        <label for="floatingInput">Color Scheme</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <select id="font" class="form-select">
+                            <option value='Share Tech Mono' selected> Share Tech Mono [regular]</option>
+                            <option value='IBM Plex Mono'>IBM Plex Mono [regular]</option>
+                            <option value='Roboto Mono'>Robot Mono [thin,italic] </option>
+                            <option value='Cutive Mono'>Cutive Mono [thin,regular]</option>
+                            <option value='Inconsolata'>Inconsolata[regular]</option>
+                            <option value='Xanh Mono'>Xanh Mono[regular]</option>
+                        </select>
+                        <label for="floatingInput">Font</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <select id="sound" class="form-select">
+                            <option value='No sound' selected>No sound</option>
+                            <option value='./sounds/bell00.mp3'>00</option>
+                            <option value='./sounds/bell01.mp3'>01</option>
+                            <option value='./sounds/bell02.mp3'>02</option>
+                        </select>
+                        <label for="floatingInput">Bell</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <textarea id="message" class="form-control"></textarea>
+                        <label for="floatingInput">Message</label>
+                    </div>
+                </div>
+
+            </div>
         </div>
+
         <hr>
 
-
-
         <!-- マニュアルボタン -->
-        <p>
-            <button id='button_manual' class="btn btn-outline-secondary" value=false type="toggle"
-                data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false"
-                aria-controls="collapseExample">
-                show manual
-            </button>
-        </p>
-        <div class="collapse" id="collapseExample">
-            <div class="card card-body">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#manual" role="tab"
-                            aria-controls="home" aria-selected="true">Description</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual_start_stop" role="tab"
-                            aria-controls="profile" aria-selected="false">start/stop</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual_reset" role="tab"
-                            aria-controls="profile" aria-selected="false">reset</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual_clear" role="tab"
-                            aria-controls="profile" aria-selected="false">clear</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual0" role="tab"
-                            aria-controls="profile" aria-selected="false">0</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual1" role="tab"
-                            aria-controls="contact" aria-selected="false">1</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual2" role="tab"
-                            aria-controls="profile" aria-selected="false">2</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual3" role="tab"
-                            aria-controls="contact" aria-selected="false">3</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual4" role="tab"
-                            aria-controls="profile" aria-selected="false">4</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual5" role="tab"
-                            aria-controls="contact" aria-selected="false">5</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual6" role="tab"
-                            aria-controls="profile" aria-selected="false">6</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual7" role="tab"
-                            aria-controls="contact" aria-selected="false">7</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual8" role="tab"
-                            aria-controls="contact" aria-selected="false">8</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual9" role="tab"
-                            aria-controls="contact" aria-selected="false">9</a>
-                    </li>
-                </ul>
+        <div id="manual">
+            <p>
+                <button id='button_manual' class="btn btn-outline-secondary" value=false type="toggle"
+                    data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false"
+                    aria-controls="collapseExample">
+                    show manual
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#manual_description"
+                                role="tab" aria-controls="home" aria-selected="true">Description</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual_start_stop"
+                                role="tab" aria-controls="profile" aria-selected="false">start/stop</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual_reset" role="tab"
+                                aria-controls="profile" aria-selected="false">reset</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual_clear" role="tab"
+                                aria-controls="profile" aria-selected="false">clear</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual0" role="tab"
+                                aria-controls="profile" aria-selected="false">0</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual1" role="tab"
+                                aria-controls="contact" aria-selected="false">1</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual2" role="tab"
+                                aria-controls="profile" aria-selected="false">2</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual3" role="tab"
+                                aria-controls="contact" aria-selected="false">3</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual4" role="tab"
+                                aria-controls="profile" aria-selected="false">4</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual5" role="tab"
+                                aria-controls="contact" aria-selected="false">5</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#manual6" role="tab"
+                                aria-controls="profile" aria-selected="false">6</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual7" role="tab"
+                                aria-controls="contact" aria-selected="false">7</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual8" role="tab"
+                                aria-controls="contact" aria-selected="false">8</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual9" role="tab"
+                                aria-controls="contact" aria-selected="false">9</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual_color" role="tab"
+                                aria-controls="contact" aria-selected="false">color</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual_font" role="tab"
+                                aria-controls="contact" aria-selected="false">font</a>
+                        </li>
+                    </ul>
 
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="manual" role="tabpanel" aria-labelledby="home-tab">
-                        <dl class="row">
-                            <dt class="col-sm3"> How to set time </dt>
-                            <dd class="col-sm-9">Write a number on the canvas. Please check each tab links to check how
-                                to write
-                                each number on a unistroke with animation gifs. </dd>
-                            <dt class="col-sm3"> Clear time </dt>
-                            <dd class="col-sm-9">Write a 'c' anywhere on the timer. write</dd>
-                            <dt class="col-sm3"> Start timer</dt>
-                            <dd class="col-sm-9">Make a single click anywhere on the timer.</dd>
-                            <dt class="col-sm3"> Reset timer</dt>
-                            <dd class="col-sm-9">Make a double click anywhere on the timer.</dd>
-                            <dt class="col-sm3"> PC/Tablet/Smartphone</dt>
-                            <dd class="col-sm-9">If you wanna use table or smartphone, please make sure that your
-                                browser is not in desktop mode. On smartphone/table, WritableTimer is supposed to be
-                                used portrait mode because of noscrool mode.</dd>
-                        </dl>
-                    </div>
-                    <div class="tab-pane fade" id="manual_start_stop" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="text-center"><img src="./gifs/start_stop.gif" class="img-fluid"
-                                alt="how to write 0">
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="manual_description" role="tabpanel"
+                            aria-labelledby="home-tab">
+                            <dl class="row">
+                                <dt class="col-sm3"> How to set time </dt>
+                                <dd class="col-sm-9">Write a number on the canvas. Please check each tab links to check
+                                    how
+                                    to write
+                                    each number on a unistroke with animation gifs. </dd>
+                                <dt class="col-sm3"> Clear time </dt>
+                                <dd class="col-sm-9">Write a 'c' anywhere on the timer. write</dd>
+                                <dt class="col-sm3"> Start timer</dt>
+                                <dd class="col-sm-9">Make a single click anywhere on the timer.</dd>
+                                <dt class="col-sm3"> Reset timer</dt>
+                                <dd class="col-sm-9">Make a double click anywhere on the timer.</dd>
+                                <dt class="col-sm3"> PC/Tablet/Smartphone</dt>
+                                <dd class="col-sm-9">If you wanna use table or smartphone, please make sure that your
+                                    browser is not in desktop mode. On smartphone/table, WritableTimer is supposed to be
+                                    used portrait mode because of noscrool mode.</dd>
+                            </dl>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="manual_reset" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="text-center"><img src="./gifs/reset.gif" class="img-fluid" alt="how to write 0">
+                        <div class="tab-pane fade" id="manual_start_stop" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="text-center"><img src="./gifs/start_stop.gif" class="img-fluid"
+                                    alt="how to write 0">
+                            </div>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="manual_clear" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="text-center"><img src="./gifs/clear.gif" class="img-fluid" alt="how to write 0">
+                        <div class="tab-pane fade" id="manual_reset" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="text-center"><img src="./gifs/reset.gif" class="img-fluid" alt="how to write 0">
+                            </div>
                         </div>
+                        <div class="tab-pane fade" id="manual_clear" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="text-center"><img src="./gifs/clear.gif" class="img-fluid" alt="how to write 0">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual_start_stop" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="text-center"><img src="./gifs/0.gif" class="img-fluid" alt="how to write 0">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual0" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="text-center"><img src="./gifs/0.gif" class="img-fluid" alt="how to write 0">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual1" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="text-center"><img src="./gifs/1.gif" class="img-fluid" alt="how to write 1">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual2" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="text-center"><img src="./gifs/2.gif" class="img-fluid" alt="how to write 2">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual3" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="text-center"><img src="./gifs/3.gif" class="img-fluid" alt="how to write 3">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual4" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="text-center"><img src="./gifs/4.gif" class="img-fluid" alt="how to write 4">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual5" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="text-center"><img src="./gifs/5.gif" class="img-fluid" alt="how to write 5">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual6" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="text-center"><img src="./gifs/6.gif" class="img-fluid" alt="how to write 6">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual7" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="text-center"><img src="./gifs/7.gif" class="img-fluid" alt="how to write 7">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual8" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="text-center"><img src="./gifs/8.gif" class="img-fluid" alt="how to write 8">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual9" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="text-center"><img src="./gifs/9.gif" class="img-fluid" alt="how to write 9">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manual_color" role="tabpanel" aria-labelledby="contact-tab">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">color scheme</th>
+                                        <th scope="col">background</th>
+                                        <th scope="col">timer text</th>
+                                        <th scope="col">sub text</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table_color">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="manual_font" role="tabpanel" aria-labelledby="contact-tab">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">font name</th>
+                                        <th scope="col">sample text</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table_font">
+                                </tbody>
+                            </table>
+
+                        </div>
+
                     </div>
-                    <div class="tab-pane fade" id="manual_start_stop" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="text-center"><img src="./gifs/0.gif" class="img-fluid" alt="how to write 0"></div>
-                    </div>
-                    <div class="tab-pane fade" id="manual0" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="text-center"><img src="./gifs/0.gif" class="img-fluid" alt="how to write 0"></div>
-                    </div>
-                    <div class="tab-pane fade" id="manual1" role="tabpanel" aria-labelledby="contact-tab">
-                        <div class="text-center"><img src="./gifs/1.gif" class="img-fluid" alt="how to write 1"></div>
-                    </div>
-                    <div class="tab-pane fade" id="manual2" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="text-center"><img src="./gifs/2.gif" class="img-fluid" alt="how to write 2"></div>
-                    </div>
-                    <div class="tab-pane fade" id="manual3" role="tabpanel" aria-labelledby="contact-tab">
-                        <div class="text-center"><img src="./gifs/3.gif" class="img-fluid" alt="how to write 3"></div>
-                    </div>
-                    <div class="tab-pane fade" id="manual4" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="text-center"><img src="./gifs/4.gif" class="img-fluid" alt="how to write 4"></div>
-                    </div>
-                    <div class="tab-pane fade" id="manual5" role="tabpanel" aria-labelledby="contact-tab">
-                        <div class="text-center"><img src="./gifs/5.gif" class="img-fluid" alt="how to write 5"></div>
-                    </div>
-                    <div class="tab-pane fade" id="manual6" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="text-center"><img src="./gifs/6.gif" class="img-fluid" alt="how to write 6"></div>
-                    </div>
-                    <div class="tab-pane fade" id="manual7" role="tabpanel" aria-labelledby="contact-tab">
-                        <div class="text-center"><img src="./gifs/7.gif" class="img-fluid" alt="how to write 7"></div>
-                    </div>
-                    <div class="tab-pane fade" id="manual8" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="text-center"><img src="./gifs/8.gif" class="img-fluid" alt="how to write 8"></div>
-                    </div>
-                    <div class="tab-pane fade" id="manual9" role="tabpanel" aria-labelledby="contact-tab">
-                        <div class="text-center"><img src="./gifs/9.gif" class="img-fluid" alt="how to write 9"></div>
-                    </div>
+
                 </div>
-
             </div>
         </div>
-
-
-
 
         <hr>
         <footer>
