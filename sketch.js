@@ -527,7 +527,7 @@ function pushedManualButton() {
 
 function makeShareLink() {
     let text = document.getElementById('text_share_link');
-    console.log(location.hostname + location.pathname);
+    //    console.log(location.hostname + location.pathname);
     // colorのパラメータ設定
     {
         let id_selected = document.getElementById('color_scheme').selectedIndex;
