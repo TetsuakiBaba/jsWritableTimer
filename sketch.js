@@ -527,12 +527,12 @@ function pushedManualButton() {
 
 function makeShareLink() {
     let text = document.getElementById('text_share_link');
-
+    console.log(location.hostname + location.pathname);
     // colorのパラメータ設定
     {
         let id_selected = document.getElementById('color_scheme').selectedIndex;
         let str = '?color=' + document.getElementById('color_scheme').options[id_selected].innerHTML;
-        text.value = location.protocol + '//' + location.hostname + str;
+        text.value = location.protocol + '//' + location.hostname + location.pathname + str;
     }
     // fontのパラメータ設定
     {

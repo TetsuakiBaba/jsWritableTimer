@@ -161,6 +161,9 @@
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual_font" role="tab" aria-controls="contact" aria-selected="false">font</a>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#manual_obs" role="tab" aria-controls="contact" aria-selected="false">Using with OBS</a>
+                        </li>
                     </ul>
 
                     </ul>
@@ -260,7 +263,22 @@
                                 <tbody id="table_font">
                                 </tbody>
                             </table>
+                        </div>
 
+                        <div class="tab-pane fade" id="manual_obs" role="tabpanel" aria-labelledby="contact-tab">
+
+                            <h5>How to use jsWritableTimer on OBS</h5>
+                            <ol>
+                                <li>Copy share link by clicking copy share link button on the page.</li>
+                                <li>Open OBS and add browser source and set belows</li>
+                                <ul>
+                                    <li>URL: Paste your share link</li>
+                                    <li>Width: 1280</li>
+                                    <li>Height: 720</li>
+                                    <li>*The canvas size is fixed on 16:9 aspect ratio.</li>
+                                </ul>
+                                <li>Set your timer on Interactive mode of browser source.</li>
+                            </ol>
                         </div>
 
                     </div>
