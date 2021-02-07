@@ -80,40 +80,22 @@ function setup() {
         canvas.touchEnded(cmouseReleased);
         disable_scroll();
         is_pc = false;
-    }
-    else {
+    } else {
         canvas.mousePressed(cmousePressed);
         canvas.mouseMoved(cmouseDragged);
         canvas.mouseReleased(cmouseReleased);
         is_pc = true;
     }
 
-    // if (navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0) {
-    //     // スマートフォン向けの記述
 
-    // } else if (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0) {
-    //     // タブレット向けの記述
-    //     canvas.touchStarted(cmousePressed);
-    //     canvas.touchMoved(cmouseDragged);
-    //     canvas.touchEnded(cmouseReleased);
-    //     disable_scroll();
-    //     is_pc = false;
-    // } else {
-    //     // PC向けの記述
-    //     canvas.mousePressed(cmousePressed);
-    //     canvas.mouseMoved(cmouseDragged);
-    //     canvas.mouseReleased(cmouseReleased);
-    //     is_pc = true;
-    // }
-    // str_debug = navigator.userAgent;
     canvas.doubleClicked(cdoubleClicked);
-
 
     select('#color_scheme').changed(changedColorScheme);
     select('#font').changed(changedFont);
     select('#message').input(inputMessage);
     select('#sound').changed(changedSound);
     select('#button_manual').mouseClicked(pushedManualButton);
+    select('#button_copy_share_link').mouseClicked(copyShareLink);
 
     textAlign(CENTER, CENTER);
     textFont(document.getElementById('font').value);
@@ -166,12 +148,54 @@ function setup() {
         td.style('font-family', options[i].value);
         if (options[i].innerHTML.indexOf('italic') > 0) {
             td.style('font-style', 'italic');
-        }
-        else {
+        } else {
             td.style('font-style', 'normal');
         }
         td.parent(tr);
     }
+
+
+    // URLにGETパラメータがある場合は、それらを設定に反映させる
+    var params = (new URL(document.location)).searchParams;
+    var color = params.get('color');
+    if (color) {
+        let options_color_scheme = document.getElementById('color_scheme').options;
+        for (let i = 0; i < options_color_scheme.length; i++) {
+            if (options_color_scheme[i].innerHTML == color) {
+                options_color_scheme[i].selected = true;
+                changedColorScheme();
+            }
+        }
+    }
+
+    var font = params.get('font');
+    let options_font = document.getElementById('font').options;
+    if (options_font) {
+        for (let i = 0; i < options_font.length; i++) {
+            if (options_font[i].innerHTML == font) {
+                options_font[i].selected = true;
+                changedFont();
+            }
+        }
+    }
+
+    var bell = params.get('sound');
+    let options_bell = document.getElementById('sound').options;
+    if (options_bell) {
+        for (let i = 0; i < options_bell.length; i++) {
+            if (options_bell[i].innerHTML == bell) {
+                options_bell[i].selected = true;
+                changedSound();
+            }
+        }
+    }
+
+    if (params.get('message')) {
+        str_message = params.get('message');
+        document.getElementById('message').innerHTML = str_message;
+    }
+
+    makeShareLink();
 }
 
 
@@ -285,6 +309,7 @@ function changedColorScheme() {
     var str = document.getElementById('color_scheme').value;
     str = str.replace(/ /g, ''); // 空白の除去
     color_scheme = str.split(',');
+    makeShareLink();
 }
 
 function cmousePressed() {
@@ -351,7 +376,7 @@ function cmouseReleased() {
         }
 
         // distsを値をキーにしてソート
-        dists.sort(function (a, b) {
+        dists.sort(function(a, b) {
             if (a.value < b.value) return -1;
             if (a.value > b.value) return 1;
             return 0;
@@ -415,7 +440,7 @@ function cmouseReleased() {
         if (is_counting_down) {
             clearInterval(id);
         } else {
-            id = setInterval(function () {
+            id = setInterval(function() {
                 if (!countdown()) {
                     clearInterval(id);
                 }
@@ -440,7 +465,7 @@ function cdoubleClicked() {
 
     if (is_counting_down) {
         clearInterval(id);
-    } else { }
+    } else {}
 
     is_counting_down = false;
     points = [];
@@ -458,22 +483,26 @@ function changedFont() {
         textStyle(NORMAL)
         document.getElementById('app').style.fontStyle = 'normal';
     }
-    textFont(this.value());
-    document.getElementById('app').style.fontFamily = this.value();
+    textFont(document.getElementById('font').options[id_selected].value);
+    document.getElementById('app').style.fontFamily = document.getElementById('font').options[id_selected].value;
 
+    makeShareLink();
 }
 
 
 function inputMessage() {
     str_message = this.value();
+    makeShareLink();
 }
 
 function changedSound() {
     //console.log(this.value());
-    if (this.value() != 'No sound') {
-        sounds[this.value()].play();
+    var selected = document.getElementById('sound');
+    if (selected.value != 'No sound') {
+        sounds[selected.value].play();
         //console.log("play");
     }
+    makeShareLink();
 }
 
 function pushedManualButton() {
@@ -493,5 +522,59 @@ function pushedManualButton() {
             disable_scroll();
         }
     }
+
+}
+
+function makeShareLink() {
+    let text = document.getElementById('text_share_link');
+
+    // colorのパラメータ設定
+    {
+        let id_selected = document.getElementById('color_scheme').selectedIndex;
+        let str = '?color=' + document.getElementById('color_scheme').options[id_selected].innerHTML;
+        text.value = location.protocol + '//' + location.hostname + str;
+    }
+    // fontのパラメータ設定
+    {
+        let id_selected = document.getElementById('font').selectedIndex;
+        let str = '&font=' + document.getElementById('font').options[id_selected].innerHTML;
+        str = str.replace(/ /g, '+');
+        text.value += str;
+    }
+    // fontのパラメータ設定
+    {
+        let id_selected = document.getElementById('sound').selectedIndex;
+        let str = '&sound=' + document.getElementById('sound').options[id_selected].innerHTML;
+        str = str.replace(/ /g, '+');
+        text.value += str;
+    }
+    // messageのパラメータ設定
+    {
+        let str = '&message=' + document.getElementById('message').value;
+        str = str.replace(/ /g, '+');
+        text.value += str;
+    }
+}
+
+function copyShareLink() {
+    var text_share_link = document.getElementById("text_share_link");
+    var button = document.getElementById("button_copy_share_link");
+    // 文字をすべて選択
+    text_share_link.select();
+    // コピー
+    document.execCommand("copy");
+    button.classList.remove('btn');
+    button.classList.remove('btn-outline-secondary');
+    button.classList.add('btn');
+    button.classList.add('btn-outline-success');
+    document.getElementById('button_copy_share_link').innerHTML = 'copied to clipboard';
+    setTimeout(function() {
+        document.getElementById('button_copy_share_link').innerHTML = 'copy share link';
+        button.classList.remove('btn');
+        button.classList.remove('btn-outline-success');
+        button.classList.add('btn');
+        button.classList.add('btn-outline-secondary');
+    }, 1500);
+
 
 }
