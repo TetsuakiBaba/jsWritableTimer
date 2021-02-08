@@ -41,16 +41,19 @@ function preload() {
 
 }
 
+var time_last_draw;
+
 function mousePressed() {
     userStartAudio();
 }
 
 function setup() {
+    time_last_draw = millis();
     str_debug = '';
     is_counting_down = false;
     let canvas_width = parseInt(document.getElementById('canvas').clientWidth);
     let canvas_height = canvas_width * (9 / 16);
-    canvas = createCanvas(canvas_width, canvas_height);
+    canvas = createCanvas(canvas_width, canvas_height, P2D);
     canvas.parent('#canvas');
 
     if (navigator.userAgent.indexOf('iPhone') > 0 ||
@@ -100,7 +103,7 @@ function setup() {
     textAlign(CENTER, CENTER);
     textFont(document.getElementById('font').value);
     textSize(height / 2);
-    frameRate(60);
+    frameRate(30);
 
     var str = document.getElementById('color_scheme').value;
     str = str.replace(/ /g, ''); // 空白の除去
@@ -302,6 +305,13 @@ function draw() {
     // textSize(12);
     // textAlign(LEFT, TOP);
     // text(str_debug, 10, 20);
+
+    if ((millis() - time_last_draw) > 5000) {
+        frameRate(2);
+    }
+    // textSize(12);
+    // textAlign(LEFT, TOP);
+    // text(frameRate(), 10, 10);
 }
 
 
@@ -325,10 +335,12 @@ function cmousePressed() {
 }
 
 function cmouseDragged() {
-    //console.log("mouseMoved");
+    //    console.log("mouseMoved");
     if (mouseIsPressed) {
         points[points.length] = new Point(mouseX, mouseY);
     }
+    time_last_draw = millis();
+    frameRate(60);
 }
 
 function centroid(_points) {
@@ -376,7 +388,7 @@ function cmouseReleased() {
         }
 
         // distsを値をキーにしてソート
-        dists.sort(function(a, b) {
+        dists.sort(function (a, b) {
             if (a.value < b.value) return -1;
             if (a.value > b.value) return 1;
             return 0;
@@ -440,7 +452,7 @@ function cmouseReleased() {
         if (is_counting_down) {
             clearInterval(id);
         } else {
-            id = setInterval(function() {
+            id = setInterval(function () {
                 if (!countdown()) {
                     clearInterval(id);
                 }
@@ -465,7 +477,7 @@ function cdoubleClicked() {
 
     if (is_counting_down) {
         clearInterval(id);
-    } else {}
+    } else { }
 
     is_counting_down = false;
     points = [];
@@ -568,7 +580,7 @@ function copyShareLink() {
     button.classList.add('btn');
     button.classList.add('btn-outline-success');
     document.getElementById('button_copy_share_link').innerHTML = 'copied to clipboard';
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementById('button_copy_share_link').innerHTML = 'copy share link';
         button.classList.remove('btn');
         button.classList.remove('btn-outline-success');
