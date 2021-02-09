@@ -103,7 +103,7 @@ function setup() {
     textAlign(CENTER, CENTER);
     textFont(document.getElementById('font').value);
     textSize(height / 2);
-    frameRate(30);
+    frameRate(60);
 
     var str = document.getElementById('color_scheme').value;
     str = str.replace(/ /g, ''); // 空白の除去
@@ -224,6 +224,11 @@ function keyPressed() {
 function draw() {
     background(color_scheme[0]);
 
+    // textSize(12);
+    // textAlign(LEFT, TOP);
+    // fill(color_scheme[1]);
+    // text(frameRate(), 10, 10);
+
     // rectangle_timer.forEach(rect => {
     //     stroke(255, 0, 0);
     //     rect.draw();
@@ -307,11 +312,9 @@ function draw() {
     // text(str_debug, 10, 20);
 
     if ((millis() - time_last_draw) > 5000) {
-        frameRate(2);
+        noLoop();
     }
-    // textSize(12);
-    // textAlign(LEFT, TOP);
-    // text(frameRate(), 10, 10);
+
 }
 
 
@@ -332,6 +335,13 @@ function cmousePressed() {
     // 以下のコメントアウトは，iOSだとこの最初の座標が以前の値の飛び値なので無視することにしました．
     //points[0] = new Point(mouseX, mouseY);
     //str_debug = points[0].X + ", " + points[0].Y;
+
+    // 省電力モードになってたらloop()を開始してcanvasを描く
+    if (!isLooping()) {
+        frameRate(60);
+        loop();
+    }
+
 }
 
 function cmouseDragged() {
@@ -339,8 +349,13 @@ function cmouseDragged() {
     if (mouseIsPressed) {
         points[points.length] = new Point(mouseX, mouseY);
     }
-    time_last_draw = millis();
-    frameRate(60);
+
+
+    // 省電力モードになってたらloop()を開始してcanvasを描く
+    if (!isLooping()) {
+        frameRate(60);
+        loop();
+    }
 }
 
 function centroid(_points) {
@@ -465,6 +480,15 @@ function cmouseReleased() {
     }
 
     points = [];
+
+    // 省電力モードになってたらloop()を開始してcanvasを描く
+    time_last_draw = millis();
+    console.log(time_last_draw);
+    if (!isLooping()) {
+        frameRate(60);
+        loop();
+    }
+
 
 }
 

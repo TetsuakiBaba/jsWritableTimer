@@ -35,6 +35,8 @@ class p5Rectangle {
 
 
 function countdown() {
+    let value_return = true;
+
     if (!timer.is_over) {
         timer.second--;
         if (timer.second < 0) {
@@ -54,7 +56,9 @@ function countdown() {
                     if (sound_file != 'No sound') {
                         sounds[sound_file].play();
                     }
-                    return true;
+                    time_last_draw = millis();
+                    loop();
+                    value_return = true;
                 }
             }
         }
@@ -72,12 +76,18 @@ function countdown() {
                     //timer.hour = timer.minute = timer.second = 0;
                     //return false;
                     timer.is_over = false;
-                    return false; // end of timer
+                    value_return = false; // end of timer
                 }
             }
         }
+
     }
-    return true;
+
+    // もし省電力モードにしていたら drawが動いてないので、このタイミングでcanvas描画をしておく
+    if (!isLooping()) {
+        draw();
+    }
+    return value_return;;
 }
 
 
