@@ -526,15 +526,26 @@ function changedFont() {
 
     makeShareLink();
 
-
-    draw();
+    // 省電力モードになってたらloop()を開始してcanvasを描く
+    time_last_draw = millis();
+    console.log(time_last_draw);
+    if (!isLooping()) {
+        frameRate(60);
+        loop();
+    }
 }
 
 
 function inputMessage() {
     str_message = this.value();
     makeShareLink();
-    draw();
+    // 省電力モードになってたらloop()を開始してcanvasを描く
+    time_last_draw = millis();
+    console.log(time_last_draw);
+    if (!isLooping()) {
+        frameRate(60);
+        loop();
+    }
 }
 
 function changedSound() {
@@ -545,7 +556,13 @@ function changedSound() {
         //console.log("play");
     }
     makeShareLink();
-    draw();
+    // 省電力モードになってたらloop()を開始してcanvasを描く
+    time_last_draw = millis();
+    console.log(time_last_draw);
+    if (!isLooping()) {
+        frameRate(60);
+        loop();
+    }
 }
 
 function pushedManualButton() {
