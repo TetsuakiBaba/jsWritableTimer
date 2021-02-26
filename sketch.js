@@ -323,6 +323,8 @@ function changedColorScheme() {
     str = str.replace(/ /g, ''); // 空白の除去
     color_scheme = str.split(',');
     makeShareLink();
+
+    draw();
 }
 
 function cmousePressed() {
@@ -523,12 +525,16 @@ function changedFont() {
     document.getElementById('app').style.fontFamily = document.getElementById('font').options[id_selected].value;
 
     makeShareLink();
+
+
+    draw();
 }
 
 
 function inputMessage() {
     str_message = this.value();
     makeShareLink();
+    draw();
 }
 
 function changedSound() {
@@ -539,6 +545,7 @@ function changedSound() {
         //console.log("play");
     }
     makeShareLink();
+    draw();
 }
 
 function pushedManualButton() {
