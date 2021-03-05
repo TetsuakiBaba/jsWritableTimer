@@ -202,7 +202,6 @@ function setup() {
     var bell_3 = params.get('switch_pre_bell_3');
     if (bell_1 == 'true' || bell_2 == 'true' || bell_3 == 'true') {
         document.getElementById('checkbox_pre_bell').hidden = false;
-
     }
     if (bell_1 == 'true') {
         document.getElementById('switch_pre_bell_1').checked = true;
@@ -218,7 +217,7 @@ function setup() {
             status: true
         };
     }
-    if (bell_3 = 'true') {
+    if (bell_3 == 'true') {
         document.getElementById('switch_pre_bell_3').checked = true;
         array_pre_bell['switch_pre_bell_3'] = {
             min: 10,
@@ -613,7 +612,7 @@ function changedPreBell() {
     };
 
     makeShareLink();
-    //console.log(array_pre_bell);
+    console.log(array_pre_bell);
 }
 
 function pushedManualButton() {
