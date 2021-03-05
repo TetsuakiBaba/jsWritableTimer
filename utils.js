@@ -41,6 +41,12 @@ function countdown() {
         timer.second--;
         if (timer.second < 0) {
             timer.minute--;
+            for (let i in array_pre_bell) {
+                if (timer.minute == (array_pre_bell[i].min - 1)) {
+                    var sound_file = document.getElementById('sound').value;
+                    sounds[sound_file].play();
+                }
+            }
             timer.second = 59;
             if (timer.minute < 0) {
                 timer.hour--;

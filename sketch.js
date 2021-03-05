@@ -6,6 +6,7 @@ var str_debug;
 var id;
 var is_counting_down;
 var points = [];
+var array_pre_bell = {};
 var timer = {
     hour: 0,
     minute: 5,
@@ -97,6 +98,9 @@ function setup() {
     select('#font').changed(changedFont);
     select('#message').input(inputMessage);
     select('#sound').changed(changedSound);
+    select('#switch_pre_bell_1').changed(changedPreBell);
+    select('#switch_pre_bell_2').changed(changedPreBell);
+    select('#switch_pre_bell_3').changed(changedPreBell);
     select('#button_manual').mouseClicked(pushedManualButton);
     select('#button_copy_share_link').mouseClicked(copyShareLink);
 
@@ -192,6 +196,36 @@ function setup() {
             }
         }
     }
+
+    var bell_1 = params.get('switch_pre_bell_1');
+    var bell_2 = params.get('switch_pre_bell_2');
+    var bell_3 = params.get('switch_pre_bell_3');
+    if (bell_1 == 'true' || bell_2 == 'true' || bell_3 == 'true') {
+        document.getElementById('checkbox_pre_bell').hidden = false;
+
+    }
+    if (bell_1 == 'true') {
+        document.getElementById('switch_pre_bell_1').checked = true;
+        array_pre_bell['switch_pre_bell_1'] = {
+            min: 1,
+            status: true
+        };
+    }
+    if (bell_2 == 'true') {
+        document.getElementById('switch_pre_bell_2').checked = true;
+        array_pre_bell['switch_pre_bell_2'] = {
+            min: 5,
+            status: true
+        };
+    }
+    if (bell_3 = 'true') {
+        document.getElementById('switch_pre_bell_3').checked = true;
+        array_pre_bell['switch_pre_bell_3'] = {
+            min: 10,
+            status: true
+        }
+    }
+
 
     if (params.get('message')) {
         str_message = params.get('message');
@@ -510,7 +544,7 @@ function cdoubleClicked() {
 }
 
 function changedFont() {
-    //here
+
     //console.log(this.value());
     let id_selected = document.getElementById('font').selectedIndex;
     //console.log(document.getElementById('font').options[id_selected].innerHTML);
@@ -548,13 +582,19 @@ function inputMessage() {
     }
 }
 
+
 function changedSound() {
     //console.log(this.value());
     var selected = document.getElementById('sound');
     if (selected.value != 'No sound') {
         sounds[selected.value].play();
-        //console.log("play");
+        document.getElementById('checkbox_pre_bell').hidden = false;
     }
+    else {
+        document.getElementById('checkbox_pre_bell').hidden = true;
+        // no soundを選択した時
+    }
+
     makeShareLink();
     // 省電力モードになってたらloop()を開始してcanvasを描く
     time_last_draw = millis();
@@ -563,6 +603,17 @@ function changedSound() {
         frameRate(60);
         loop();
     }
+}
+
+function changedPreBell() {
+    //console.log(this.id(), this.value(), this.checked());
+    array_pre_bell[this.id()] = {
+        min: this.value(),
+        status: this.checked()
+    };
+
+    makeShareLink();
+    //console.log(array_pre_bell);
 }
 
 function pushedManualButton() {
@@ -601,12 +652,23 @@ function makeShareLink() {
         str = str.replace(/ /g, '+');
         text.value += str;
     }
-    // fontのパラメータ設定
+    // soundのパラメータ設定
     {
         let id_selected = document.getElementById('sound').selectedIndex;
         let str = '&sound=' + document.getElementById('sound').options[id_selected].innerHTML;
         str = str.replace(/ /g, '+');
         text.value += str;
+    }
+    // pre-bellのパラメータ設定
+    {
+        if (Object.keys(array_pre_bell).length > 0) {
+            var str = '';
+            for (let i in array_pre_bell) {
+                str += '&' + i.toString() + '=' + array_pre_bell[i].status;
+            }
+            text.value += str;
+        }
+
     }
     // messageのパラメータ設定
     {
