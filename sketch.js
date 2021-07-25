@@ -284,6 +284,12 @@ function draw() {
 
     textAlign(CENTER, CENTER);
     let str = nf(timer.minute, 2, 0) + ':' + nf(timer.second, 2, 0);
+
+    if (document.getElementById('font').options[id_selected].value == 'DSEG7Classic-Italic') {
+        fill(100, 50);
+        text('88:88', width / 2, height / 2);
+    }
+    fill(color_scheme[1]);
     text(str, width / 2, height / 2);
 
     // Messageの描画
