@@ -273,7 +273,15 @@ function draw() {
     //stroke(0, 0, 0);
     //strokeWeight(10);
     fill(color_scheme[1]);
-    textSize(height / 1.7);
+
+    let id_selected = document.getElementById('font').selectedIndex;
+    if (document.getElementById('font').options[id_selected].value == 'DSEG7Classic-Italic') {
+        textSize(height / 2.2);
+    }
+    else {
+        textSize(height / 1.7);
+    }
+
     textAlign(CENTER, CENTER);
     let str = nf(timer.minute, 2, 0) + ':' + nf(timer.second, 2, 0);
     text(str, width / 2, height / 2);
@@ -555,6 +563,7 @@ function changedFont() {
         document.getElementById('app').style.fontStyle = 'normal';
     }
     textFont(document.getElementById('font').options[id_selected].value);
+    console.log(document.getElementById('font').options[id_selected].value);
     document.getElementById('app').style.fontFamily = document.getElementById('font').options[id_selected].value;
 
     makeShareLink();
