@@ -29,8 +29,8 @@ Please read the manual on the demo page.
 ## Author
 * Tetsuaki Baba: https://tetsuakibaba.jp
 
-
 ## Reference
   * p5js libraries: https://p5js.org/libraries/
   * Bootstrap: https://getbootstrap.com
   * $1 Unistroke Recognizer: http://depts.washington.edu/acelab/proj/dollar/index.html
+  * An segment led font(DSEG7Classic-Italic) is distributed by https://www.keshikan.net/fonts-e.html
