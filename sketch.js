@@ -101,6 +101,10 @@ function setup() {
     select('#switch_pre_bell_1').changed(changedPreBell);
     select('#switch_pre_bell_2').changed(changedPreBell);
     select('#switch_pre_bell_3').changed(changedPreBell);
+    select('#number_pre_bell_1').changed(changedPreBellNumber);
+    select('#number_pre_bell_2').changed(changedPreBellNumber);
+    select('#number_pre_bell_3').changed(changedPreBellNumber);
+
     select('#button_manual').mouseClicked(pushedManualButton);
     select('#button_copy_share_link').mouseClicked(copyShareLink);
 
@@ -200,29 +204,32 @@ function setup() {
     var bell_1 = params.get('switch_pre_bell_1');
     var bell_2 = params.get('switch_pre_bell_2');
     var bell_3 = params.get('switch_pre_bell_3');
-    if (bell_1 == 'true' || bell_2 == 'true' || bell_3 == 'true') {
+    if (bell_1 || bell_2 || bell_3) {
         document.getElementById('checkbox_pre_bell').hidden = false;
     }
-    if (bell_1 == 'true') {
+    if (bell_1) {
         document.getElementById('switch_pre_bell_1').checked = true;
         array_pre_bell['switch_pre_bell_1'] = {
-            min: 1,
+            min: int(bell_1),
             status: true
         };
+        document.getElementById('number_pre_bell_1').value = bell_1;
     }
-    if (bell_2 == 'true') {
+    if (bell_2) {
         document.getElementById('switch_pre_bell_2').checked = true;
         array_pre_bell['switch_pre_bell_2'] = {
-            min: 5,
+            min: int(bell_2),
             status: true
         };
+        document.getElementById('number_pre_bell_2').value = bell_2;
     }
-    if (bell_3 == 'true') {
+    if (bell_3) {
         document.getElementById('switch_pre_bell_3').checked = true;
         array_pre_bell['switch_pre_bell_3'] = {
-            min: 10,
+            min: int(bell_3),
             status: true
         }
+        document.getElementById('number_pre_bell_3').value = bell_3;
     }
 
 
@@ -231,6 +238,7 @@ function setup() {
         document.getElementById('message').innerHTML = str_message;
     }
 
+    console.log(array_pre_bell);
     makeShareLink();
 }
 
@@ -612,7 +620,7 @@ function changedSound() {
     makeShareLink();
     // 省電力モードになってたらloop()を開始してcanvasを描く
     time_last_draw = millis();
-    console.log(time_last_draw);
+    //console.log(time_last_draw);
     if (!isLooping()) {
         frameRate(60);
         loop();
@@ -622,13 +630,29 @@ function changedSound() {
 function changedPreBell() {
     //console.log(this.id(), this.value(), this.checked());
     array_pre_bell[this.id()] = {
-        min: this.value(),
+        min: int(document.getElementById(this.value()).value),
         status: this.checked()
     };
 
     makeShareLink();
-    console.log(array_pre_bell);
+    console.log("changedPreBell", array_pre_bell);
 }
+
+function changedPreBellNumber() {
+    //console.log(this.id(), this.value(), this.checked());
+    var element;
+    if (this.id() == 'number_pre_bell_1') element = document.getElementById('switch_pre_bell_1');
+    if (this.id() == 'number_pre_bell_2') element = document.getElementById('switch_pre_bell_2');
+    if (this.id() == 'number_pre_bell_3') element = document.getElementById('switch_pre_bell_3');
+    array_pre_bell[element.id] = {
+        min: int(this.value()),
+        status: element.checked
+    };
+
+    makeShareLink();
+    //    console.log("changedPreBellNumber", array_pre_bell);
+}
+
 
 function pushedManualButton() {
 
@@ -678,7 +702,12 @@ function makeShareLink() {
         if (Object.keys(array_pre_bell).length > 0) {
             var str = '';
             for (let i in array_pre_bell) {
-                str += '&' + i.toString() + '=' + array_pre_bell[i].status;
+                if (array_pre_bell[i].status == true) {
+                    str += '&' + i.toString() + '=' + array_pre_bell[i].min;
+                }
+                else {
+                    //str += '&' + i.toString() + '=-1';
+                }
             }
             text.value += str;
         }

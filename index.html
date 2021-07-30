@@ -17,9 +17,9 @@
 
 
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+
     <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Inconsolata&family=Roboto+Mono:ital,wght@1,100&family=Share+Tech+Mono&family=Xanh+Mono&family=Cutive+Mono&display=swap"
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Inconsolata&family=Roboto+Mono:ital,wght@1,100&family=Share+Tech+Mono&family=Xanh+Mono&family=Cutive+Mono&Noto+Sans+JP:wght@300&family=Noto+Serif+JP&display=swap"
         rel="stylesheet">
 
 
@@ -71,6 +71,8 @@
                             <option value='Inconsolata'>Inconsolata [regular]</option>
                             <option value='Xanh Mono'>Xanh Mono [regular]</option>
                             <option value='DSEG7Classic-Italic'>DSEG7Classic-Italic </option>
+                            <option value='Noto Sans JP'>Noto Sans JP [Japanese]</option>
+                            <option value='Noto Serif JP'>Noto Serif JP [Japanese]</option>
                         </select>
                         <label for="floatingInput">Font</label>
                     </div>
@@ -101,8 +103,8 @@
                 </div>
                 <div class="col-6">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" value='1' type="checkbox" id="switch_pre_bell_1">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">1 min left</label>
+                        <input class="col-5 form-check-input" value='0' type="checkbox" checked disabled>
+                        <label class="col-5 form-check-label" for="flexSwitchCheckDefault">End of time</label>
                     </div>
                 </div>
                 <div class="col-6">
@@ -110,8 +112,11 @@
                 </div>
                 <div class="col-6">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" value='5' type="checkbox" id="switch_pre_bell_2">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">5 min left</label>
+                        <input class="col-5 form-check-input" value='number_pre_bell_1' type="checkbox"
+                            id="switch_pre_bell_1">
+                        <input class="col-2 form-check-number" type="number" value='1' id="number_pre_bell_1" min="1"
+                            max="120" step="1">
+                        <label class="col-5 form-check-label" for="flexSwitchCheckDefault"> min left</label>
                     </div>
                 </div>
                 <div class="col-6">
@@ -119,8 +124,21 @@
                 </div>
                 <div class="col-6">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" value='10' type="checkbox" id="switch_pre_bell_3">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">10 min left</label>
+                        <input class="col-5 form-check-input" value='number_pre_bell_2' type="checkbox"
+                            id="switch_pre_bell_2">
+                        <input class="col-2 form-check-number" type="number" id='number_pre_bell_2' value='5'>
+                        <label class="col-5 form-check-label" for="flexSwitchCheckDefault"> min left</label>
+                    </div>
+                </div>
+                <div class="col-6">
+
+                </div>
+                <div class="col-6">
+                    <div class="form-check form-switch">
+                        <input class="col-5 form-check-input" value='number_pre_bell_3' type="checkbox"
+                            id="switch_pre_bell_3">
+                        <input class="col-2 form-check-number" type="number" id='number_pre_bell_3' value='10'>
+                        <label class="col-5 form-check-label" for="flexSwitchCheckDefault">min left</label>
                     </div>
                 </div>
                 <div class="col-6">
